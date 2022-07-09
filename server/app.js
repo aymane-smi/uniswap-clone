@@ -18,7 +18,7 @@ const start = async ()=>{
         typeDefs,
         context: {db},
     });
-    await server.listen(3000, ()=>{
+    await server.listen(4000, ()=>{
         console.log("server started listing at PORT: 3000...");
     });
 };
