@@ -2,7 +2,7 @@ CREATE TABLE transactions(
     id INT PRIMARY KEY,
     sender TEXT NOT NULL,
     receiver TEXT NOT NULL,
-    amount INT NOT NULL,
+    amount FLOAT NOT NULL,
     timestamp TEXT NOT NULL
 );
 

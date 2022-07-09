@@ -2,30 +2,32 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import{ Provider } from "react-redux";
 import { Store } from "./reducers/Store";
 import Home from './components/Home';
-import { ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import History from './components/History';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 //apollo client object configuration
-const client = {
+const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
-};
+});
 root.render(
   <React.StrictMode>
-    <Provider store={Store}>
-      <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+      <Provider store={Store}>
         <Router>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/history" element={<Home />} />
+              <Route path="/history" element={<History />} />
+              <Route path="*" element={<Navigate to="/"/>}/>
             </Routes>
         </Router>
-      </ApolloProvider>
-    </Provider>
+      </Provider>
+    </ApolloProvider>
   </React.StrictMode>
 );
 

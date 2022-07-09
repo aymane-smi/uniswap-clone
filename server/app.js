@@ -19,7 +19,7 @@ const start = async ()=>{
         context: {db},
     });
     await server.listen(4000, ()=>{
-        console.log("server started listing at PORT: 3000...");
+        console.log("server started listing at PORT: 4000...");
     });
 };
 

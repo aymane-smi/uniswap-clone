@@ -6,14 +6,16 @@ import { useSelector } from "react-redux";
 import { Swap } from "../../actions";
 import { ADD_TRANSACTION } from "../../graphql/schemas";
 import { useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 const Swaper = ()=>{
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState(0.0);
     const [receiver, setReceiver] = useState("");
     const { wallet: selector} = useSelector(wallet => wallet);
-    const [mutationFunction, { error, loading, data}] = useMutation(ADD_TRANSACTION);
+    const [mutationFunction, {error, loading, data}] = useMutation(ADD_TRANSACTION);
     const handleChange = (evt) => {
         // eslint-disable-next-line default-case
         switch(evt.target.name){
@@ -30,21 +32,26 @@ const Swaper = ()=>{
     };
     const handleSubmit = async(evt)=>{
         evt.preventDefault();
-        setAmount(Number.parseFloat(amount));
-        if(amount === 0){
+        if(Number.parseFloat(amount) === 0){
             console.log("please enter a value greater than 0!");
+            toast.error("please enter a value greater than 0!");
+            return;
+        }
+        if(receiver === ""){
+            console.log("please enter the receiver address!");
+            toast.error("please enter the receiver address!");
             return;
         }
         await Swap(receiver, amount, selector);
         await mutationFunction({variables: {input: {
-            selector,
+            sender: selector,
             receiver,
-            amount,
+            amount: Number.parseFloat(amount),
             timestamp: new Date(),
         }}});
-        console.log(error, loading, data);
+        toast.success("Transactions completed!");
         setAmount(0.0);
-        setReceiver(NULL_ADDRESS);
+        setReceiver("");
     };
     return (<main className="flex justify-center h-[50%] items-center">
         <section className="w-[28%] bg-[#191b1f] rounded-[15px] px-[14px] py-[9px]">

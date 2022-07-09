@@ -8,6 +8,7 @@ const typeDefs = gql`
 
     type Query {
         transactions(offset: Int): [Transaction]
+        count: Int
     }
     type Mutation {
         create(input: createTransactions):  Void
@@ -19,7 +20,7 @@ const typeDefs = gql`
         id: ID!
         sender: String!
         receiver: String!
-        amount: Int!
+        amount: Float!
         timestamp: String!
     }
 
@@ -28,7 +29,7 @@ const typeDefs = gql`
     input createTransactions{
         sender: String!
         receiver: String!
-        amount: Int!
+        amount: Float!
         timestamp: String!
     }
 

@@ -17,3 +17,9 @@ export const SHOW_TRANSACTIONS = gql`
         }
     }
 `;
+
+export const COUNT = gql`
+    query Query {
+        count
+    }
+`;
